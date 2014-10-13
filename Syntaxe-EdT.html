@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <section id="format-de-fichier-pour-des-emplois-du-temps">
+        <h1>Format de fichier pour des emplois du temps</h1>
+        <p>Les contraintes sur les emplois du temps sont données dans des fichiers texte, à raison d'une contrainte par ligne.</p>
+    </section>
+    <section id="dimensionnement">
+        <h1>Dimensionnement</h1>
+        <p>Les contraintes sont précédées au début du fichier de 4 lignes qui indiquent la taille du problème (nombre d'enseignants, de salles, de créneaux et de cours).</p>
+        <section id="enseignants-m">
+            <h2>enseignants: m</h2>
+            <p>Définit le nombre d'enseignants (on peut faire référence par la suite via Ens_i à l'enseignant n°i).</p>
+        </section>
+        <section id="salles-q">
+            <h2>salles: q</h2>
+            <p>Définit le nombre de salles (on peut faire référence par la suite via Sl_i à la salle n°i).</p>
+        </section>
+        <section id="creneaux-p">
+            <h2>creneaux: p</h2>
+            <p>Définit le nombre de créneaux gérés (on peut faire référence par la suite via Cx_i au créneau n°i). On suppose 7 créneaux de 1h par jour (8h-9h, 9h-10h, 10h-11h, 11h-12h, 14h-15h, 15h-16h et 16h-17h). Si on traite 14 créneaux, cela signifie que l'on établi un emploi du temps sur le lundi et le mardi. 35 créneaux correspondent à une semaine complète.</p>
+        </section>
+        <section id="cours-n">
+            <h2>cours: n</h2>
+            <p>Définit le nombre de cours à placer.</p>
+        </section>
+    </section>
+    <section id="contraintes">
+        <h1>Contraintes</h1>
+        <p>Ci-dessous la syntaxe des contraintes:</p>
+        <section id="i-enseigne-j1-j2">
+            <h2>i enseigne: j1, j2, ...</h2>
+            <p>Indique que l'enseignant n°i <em>peut</em> enseigner les cours j1, j2, etc. Un enseignant i ne peut pas enseigné un cours j si cette contrainte ne l'indique pas.</p>
+        </section>
+        <section id="salles-pour-i-j1-j2">
+            <h2>salles pour i: j1, j2, ...</h2>
+            <p>Indique que le cours i <em>doit</em> avoir lieu dans une des salles j1, j2, etc. Si une salle n'est pas spécifiée pour un enseignement, ce dernier ne peut pas avoir lieu dans cette salle.</p>
+        </section>
+        <section id="i-indisponible-j1-j2">
+            <h2>i indisponible: j1, j2, ...</h2>
+            <p>Indique que l'enseignant i ne <em>peut pas</em> faire cours au créneaux j1, j2, etc.</p>
+        </section>
+    </section>
+</body>
+</html>
