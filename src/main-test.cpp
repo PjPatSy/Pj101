@@ -40,5 +40,6 @@ TEST(lit_ecrit_dimacs) {
 
 int main()
 {
+	cout << "kdsjskufjn";
   return UnitTest::RunAllTests(); // un peu magique: lance tous les tests
 }

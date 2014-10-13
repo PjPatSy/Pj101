@@ -4,9 +4,11 @@
 //            A PARTIR D'ICI LES FONCTIONS SONT A IMPLEMENTER                 //
 ////////////////////////////////////////////////////////////////////////////////
 ostream& operator<<(ostream& out, const cls_t& cl){
-  // A FAIRE
-  // exemple 
-  out << "{" << 42 << '}' << endl;
+	/*out << ", ";
+	for (cls_t::const_iterator it = cl.begin(); it != cl.end; it++) {
+		out << *it << ", ";
+	}*/
+  
   return out;
 }
 
