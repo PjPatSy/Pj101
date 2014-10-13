@@ -15,7 +15,7 @@ Son arborescence de l'archive est la suivante :
 /Lisez-moi.txt
   * Le présent fichier.
 ================================================================================
-/UnitTest/
+/unittest-cpp/
   * La bibliothèque UnitTest++ pour simplifier l'écriture des tests.
     Voir /src/main-test.cpp pour un exemple. 
     ! NE PAS RENTRER DANS LE CODE DE CETTE BIBLIOTHÈQUE !
