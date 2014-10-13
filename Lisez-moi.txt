@@ -1,0 +1,75 @@
+================================================================================
+             LIF11 : projet 2013-2014 "SAT et vérification C/C++" 
+
+Page du projet :     
+  http://liris.cnrs.fr/~ecoquery/dokuwiki/doku.php?id=enseignement:logique:projet:2013
+
+Adresse de l'archive (v1.0) :
+FIXME: à changer
+================================================================================
+
+Cette archive contient le projet de départ fourni aux étudiant.
+Son arborescence de l'archive est la suivante :
+
+================================================================================
+/Lisez-moi.txt
+  * Le présent fichier.
+================================================================================
+/UnitTest/
+  * La bibliothèque UnitTest++ pour simplifier l'écriture des tests.
+    Voir /src/main-test.cpp pour un exemple. 
+    ! NE PAS RENTRER DANS LE CODE DE CETTE BIBLIOTHÈQUE !
+================================================================================    
+/src/
+  * Le répertoire contenant fichiers sources.
+/src/Makefile
+  * Fichier pour construire le projet (make), lancer les tests (make test), etc.
+    Les fichiers compilés exécutables sont dans la racine du projet.
+================================================================================
+/src/formule.hpp
+  * Ce fichier formule.hpp contient la déclaration de la structure de données
+    utilisée pour représenter l'arbre de syntaxe abstraite.
+/src/formule.cpp
+  * Ce fichier contient l'implémentation des fonctions décrites dans formule.hpp.
+    Les fonctions formule2string et copier constituent de bon exemples de
+    fonctions récursives de parcours de l'arbre de syntaxe abstraite.
+================================================================================
+/src/sat.hpp
+/src/sat.cpp
+  * Ces deux fichiers sont quasiment vides. Ils sont destinés à recevoir les 
+    structures de données, les déclarations et le code des fonctions
+    liés à l'implémentation du solveur SAT.
+================================================================================
+/src/main.cpp
+  * Fichier contenant la fonction main du programme. L'exécutable produit par
+    make est /sat. Il prend en argument éventuel une chaîne qui sera
+    interprété comme une formule et dont la satisfiabilité est évaluée.
+/src/main-test.cpp
+  * Fichier contenant les tests unitaires des différentes fonctions. Ces tests
+    sont décrits avec les macros TEST et CHECK de la bibliothèque UnitTest++.
+    Le programme exécutable qui les lance automatiquement est /run-test.
+================================================================================
+/src/parser.lex
+/src/parser.y
+  * Ces fichiers décrivent le langage des chaînes de caractères (langage au sens
+    formel des grammaires et des automates à pile de LIF15) qui sont des formules.
+    Ces fichiers décrivent également la transformation (fonction d'interprétation) 
+    en arbre de syntaxe abstraite qui est créée lors de l'analyse. 
+    ! IL N'EST PAS DEMANDE DE LES CONSULTER ET ENCORE MOINS DE LES COMPRENDRE !
+/src/parser.hpp
+  * Le fichier à inclure qui déclare les fonctions lit_formule(istream & input)
+    et lit_formule(const string & s) qui lisent un fichier et créée l'arbre de
+    syntaxe abstraite de la formule correspondante.
+     ! LA FONCTION lit_formule EST VOTRE UNIQUE POINT D'ENTRÉE AUX PROGRAMMES
+    GENERES PAR parser.lex et parser.y. NE PAS ESSAYER D'Y ACCÉDER AUTREMENT !
+================================================================================
+/src/lex.yy.cpp
+/src/location.hh
+/src/parser.tab.cpp
+/src/parser.tab.hpp
+/src/position.hh
+/src/stack.hh
+  * Ces fichiers sont générés automatiquement (cf le Makefile pour les curieux)
+  à partir des fichiers parser.lex et parser.y.
+  ! NE PAS RENTRER DANS CE CODE !
+================================================================================
