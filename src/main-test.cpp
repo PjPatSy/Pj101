@@ -11,9 +11,9 @@ TEST(test1) {
 }
 
 // Un test simple qui échoue
-TEST(test2) {
-  CHECK(2 == 1+2);
-}
+//~ TEST(test2) {
+  //~ CHECK(2 == 1+2);
+//~ }
 
 // Exemple de test des fonctions de lecture et d'écriture au format dimacs
 TEST(lit_ecrit_dimacs) {
@@ -40,6 +40,16 @@ TEST(lit_ecrit_dimacs) {
 
 int main()
 {
-	cout << "kdsjskufjn";
-  return UnitTest::RunAllTests(); // un peu magique: lance tous les tests
+	lit_t a = 12;
+	lit_t b = 1;
+	lit_t c = 7;
+	lit_t d = 9;
+	lit_t e = 3;
+	lit_t f = 99;
+	cls_t listeA = {a, b, c};
+	cls_t listeB = {d, e, f};
+	cnf_t vect = {listeA, listeB};
+	//~ cout << vect << '\n';
+	
+	return UnitTest::RunAllTests(); // un peu magique: lance tous les tests
 }
