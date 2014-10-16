@@ -30,42 +30,44 @@ ostream& operator<<(ostream& out, const cnf_t& c){
 	
 	return out;
 }
-///////////////////////////////////////////
-// A DEMANDER AU PROF POUR LA LIB ALGO !!! 
-///////////////////////////////////////////
+/////////////////////////////////////////////
+// A DEMANDER AU PROF POUR LA LIB ALGO !!! //
+/////////////////////////////////////////////
 bool est_dans(const cls_t& c, const cnf_t& f){
-	//~ for(cnf_t::const_iterator it = f.cbegin(); it != f.cend(); it++) {
-		//~ if(*it == c){
-			//~ return true;
-		//~ }
-	//~ }
-	//~ f.find(c);
-	
-	if(find(f.cbegin(), f.cend(), c) == f.cend()){
-		return true;
+	for(cnf_t::const_iterator it = f.cbegin(); it != f.cend(); it++) {
+		if(*it == c){
+			return true;
+		}
 	}
+	
+	//~ if(find(f.cbegin(), f.cend(), c) == f.cend()){
+		//~ return true;
+	//~ }
 	
 	return false;
 }
 
 lit_t var2lit(var_t v, bool p){
-// A FAIRE
-return 0;
+	if(v == 0){
+		return 0;
+	}
+	return (p ? v * 2 : (v * 2) - 1);
 }
 
 lit_t neg(lit_t l){
-// A FAIRE
-return 0;
+	// A FAIRE
+	return 0;
 }
 
 
 var_t lit2var(lit_t l) {
-// A FAIRE
-return 0;
+	if(v == 0){
+		return 0;
+	}
+	return (p ? v * 2 : (v * 2) - 1);
 }
 
 bool positif(lit_t l) {
-// A FAIRE
-return true;
+	// A FAIRE
+	return true;
 }
-

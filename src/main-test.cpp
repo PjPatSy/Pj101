@@ -48,8 +48,10 @@ int main()
 	lit_t f = 99;
 	cls_t listeA = {a, b, c};
 	cls_t listeB = {d, e, f};
+	cls_t listeC = {a, e, c};
 	cnf_t vect = {listeA, listeB};
 	//~ cout << vect << '\n';
-	
+	if(est_dans(listeC, vect)) cout << "ok" << endl;
+	else cout << "pas ok" << endl;
 	return UnitTest::RunAllTests(); // un peu magique: lance tous les tests
 }
