@@ -42,6 +42,23 @@ void affiche_solution_html(ostream& out, solution& sol, probleme& pb) {
     out << "</html>" << endl;
 }
 
+void init_lits(const probleme& pb, lit_edt& vars){
+	int j;
+	for(j = 0; j < pb->enseigne[i][j].size; j++){
+		if(pb->enseigne[i][j] == j){
+			vars[i]->push(var2lit(pb->enseigne[i][j]));
+		}else{
+			
+			for(int cpt = j; cpt < pb->enseigne[i][j]; cpt++){
+				vars[i]->push(var2lit(cpt, false));
+			}
+		}
+	}
+	for(int cpt = pb->enseigne[i][j]; cpt < pb->nb_cours; cpt++){
+		vars[i]->push(var2lit(cpt, false));
+	}
+}
+
 // A coder
 void ecrit_cnf_probleme(ostream& out, probleme& pb) {
     out << "A implementer" << endl;

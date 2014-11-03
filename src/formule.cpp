@@ -48,26 +48,29 @@ bool est_dans(const cls_t& c, const cnf_t& f){
 }
 
 lit_t var2lit(var_t v, bool p){
-	if(v == 0){
-		return 0;
+	if(p){
+		return v * 2;
+	}else{
+		return v * 2 + 1;
 	}
-	return (p ? v * 2 : (v * 2) - 1);
 }
 
 lit_t neg(lit_t l){
-	// A FAIRE
-	return 0;
+	if(positif(l)){
+		return l + 1;
+	}else{
+		return l - 1;
+	}
 }
 
-
 var_t lit2var(lit_t l) {
-	if(v == 0){
-		return 0;
+	if(positif(l)){
+		return l / 2;
+	}else{
+		return (l - 1) / 2;
 	}
-	return (p ? v * 2 : (v * 2) - 1);
 }
 
 bool positif(lit_t l) {
-	// A FAIRE
-	return true;
+	return (l % 2 == 0 ? true : false);
 }
