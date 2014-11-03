@@ -1,0 +1,29 @@
+enseignants: 5
+salles: 4
+creneaux: 10
+cours: 20
+0 enseigne: 6,14,2,0,11,8,17,19,15,5
+1 enseigne: 7,13,15,17,1,16,12,6,9,11
+2 enseigne: 18,8,13,15,19,6,16,2,17,12
+3 enseigne: 15,13,9,4,0,17,7,10,18,2
+4 enseigne: 2,7,6,19,3,12,14,0,10,5
+salle pour 0: 0,2
+salle pour 1: 1,0,3,2
+salle pour 2: 0,3
+salle pour 3: 3,1
+salle pour 4: 2,3
+salle pour 5: 0,3
+salle pour 6: 1,3,0,2
+salle pour 7: 0,1
+salle pour 8: 0,3,1,2
+salle pour 9: 0,1
+salle pour 10: 0,3,2,1
+salle pour 11: 3,2,1
+salle pour 12: 0,2,1,3
+salle pour 13: 3,0,2,1
+salle pour 14: 3,2
+salle pour 15: 2,1
+salle pour 16: 1,2,3
+salle pour 17: 1,2,0
+salle pour 18: 2,1,0
+salle pour 19: 3,2,0,1

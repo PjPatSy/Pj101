@@ -142,7 +142,8 @@ namespace yy
      COLON = 267,
      COMMA = 268,
      NL = 269,
-     END = 270
+     END = 270,
+     DOTDOT = 271
    };
 
     };

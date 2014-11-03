@@ -8,7 +8,7 @@ using namespace std;
 void usage() {
     cerr << " edt fichier_probleme.txt -o fichier_cnf.dimacs" << endl;
     cerr << "ou"<< endl;
-    cerr << " edt --solution fichier_probleme.txt -i resultat_sat.dimacs -o resultat_emploi_du_temps.html";
+    cerr << " edt --solution fichier_probleme.txt -i resultat_sat.dimacs -o resultat_emploi_du_temps.html" << endl;
 }
 
 int main(int argc, char ** argv) {
@@ -62,10 +62,15 @@ int main(int argc, char ** argv) {
             ifstream in(input);
             set<lit_t> modele = lit_resultat_dimacs(in);
             in.close();
-            solution sol = construit_solution(modele,pb);
-            ofstream out(output);
-            affiche_solution_html(out,sol,pb);
-            out.close();
+            if (modele.size() > 0) {
+              solution sol = construit_solution(modele,pb);
+              ofstream out(output);
+              affiche_solution_html(out,sol,pb);
+              out.close();
+            } else {
+              cout << "modele vide, pas de solution" << endl;
+              return 1;
+            }
         }
     }
     return 0;

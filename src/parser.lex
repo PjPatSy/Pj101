@@ -13,10 +13,9 @@ YY_DECL;
 %}
 
 ENTIER       -?[0-9]+
-NL           [\n\r \t]*[\n][\n\r \t]*
 %%
-[ \t\r]
-{NL} {return yy::parser::token::NL; }
+[ \t\r] {}
+"\n" {return yy::parser::token::NL; }
 "enseignants"  {return yy::parser::token::ENSEIGNANTS; }
 "salles" {return yy::parser::token::SALLES;}
 "creneaux" {return yy::parser::token::CRENEAUX;}
@@ -27,6 +26,7 @@ NL           [\n\r \t]*[\n][\n\r \t]*
 "indisponible" {return yy::parser::token::INDISPONIBLE;}
 ":" {return yy::parser::token::COLON;}
 "," {return yy::parser::token::COMMA;}
+".." {return yy::parser::token::DOTDOT; }
 {ENTIER} {pyylval->i=atoi(yytext);return yy::parser::token::ENTIER;}
 %%
 int yywrap(){return 1;}

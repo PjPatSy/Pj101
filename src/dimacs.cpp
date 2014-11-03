@@ -3,7 +3,7 @@
 #include <sstream>
 
 lit_t fromDimacs(int d) {
-  return var2lit( abs(d) - 1,  d > 0 );
+  return (abs(d) - 1)*2 + (d < 0 ? 1 : 0);
 }
 
 int toDimacs(lit_t l) {
@@ -30,7 +30,6 @@ void lit_dimacs(istream& input, dimacs & data) {
     if (line.length() > 0 && line[0] != 'p' && line[0] != 'c') {
       istringstream buffer(line);
       lit_ligne_dimacs(buffer,data);
-      getline(input,line);
     }
   }
 }

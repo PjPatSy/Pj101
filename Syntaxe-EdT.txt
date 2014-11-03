@@ -52,8 +52,8 @@ Indique que l'enseignant n°i *peut* enseigner les cours j1, j2, etc.
 Un enseignant i ne peut pas enseigné un cours j si cette contrainte ne
 l'indique pas.
 
-salles pour i: j1, j2, ...
---------------------------
+salle pour i: j1, j2, ...
+-------------------------
 
 Indique que le cours i *doit* avoir lieu dans une des salles j1, j2,
 etc.  Si une salle n'est pas spécifiée pour un enseignement, ce
@@ -65,3 +65,8 @@ i indisponible: j1, j2, ...
 Indique que l'enseignant i ne *peut pas* faire cours au créneaux j1,
 j2, etc.
 
+Syntaxe pour des suites d'entiers
+=================================
+
+La syntaxe `i .. j` peut être utilisée pour remplacer la suite
+d'entiers i, i+1, ..., j-1, j .

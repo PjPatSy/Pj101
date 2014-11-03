@@ -3,6 +3,8 @@ default: ../sat ../edt
 test: ../run-test
 	(cd ..; ./run-test)
 
+parser: parser.tab.cpp parser.tab.hpp lex.yy.cpp
+
 SUFFIXES += .d
 SRC := $(sort $(wildcard *.cpp) parser.tab.cpp lex.yy.cpp)
 MAINS := main.o main-test.o main-edt.o
@@ -52,12 +54,17 @@ help:
 %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -MM $*.cpp -MF $*.d
 
-parser.tab.cpp: parser.y
+ifeq ($(findstring parser,$(MAKECMDGOALS)),parser)
+parser.tab.cpp parser.tab.hpp: parser.y
 	bison -d parser.y --output-file=parser.tab.cpp
 
 lex.yy.cpp: parser.lex
 	flex -o lex.yy.cpp parser.lex 
+endif
 
 ifneq ($(subst parser,,$(MAKECMDGOALS)),clean) 
 include $(ALLOBJECTS:%.o=%.d)
 endif
+
+.PHONY: default test parser
+

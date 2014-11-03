@@ -33,7 +33,7 @@ struct lit_edt {
   vector< vector<lit_t> > Cr_En; 
   // le littéral Cr_Sal[i][j] est vrai si le cours Crs_i a lieu
   // dans la salle Sl_j.
-  vector< vector< vector<lit_t> > > Cr_Sal;
+  vector< vector<lit_t> > Cr_Sal;
   // le littéral Cr_Cx[i][j] est vrai si le cours Crs_i a lieu
   // au créneau Cx_j.
   vector< vector<lit_t> > Cr_Cx;

@@ -1,0 +1,59 @@
+enseignants: 10
+salles: 5
+creneaux: 10
+cours: 40
+0 enseigne: 18,8,3,0,16,19,36,14,38,32,23,7,24,30,15,35,13,31,20,17
+1 enseigne: 8,24,12,17,34,18,21,27,36,20,22,10,32
+2 enseigne: 26,3,37,22,13,10,4,2,5,9,25,14,35,28,21,8,11
+3 enseigne: 1,37,22,9,3,16,24,15,27,10,5
+4 enseigne: 11,36,9,24,16,26,12,2,32,38,17,20,3,37,5,10,28,21,31,18
+5 enseigne: 17,19,10,23,26,6,5,32,28,22,27
+6 enseigne: 22,21,5,34,39,3,11,16,4,19,29,25,20,36,2,15,14,9,31,18
+7 enseigne: 16,3,5,34,19,26,24,4,0,15,38
+8 enseigne: 2,17,11,1,22,31,37,23,26,3,30,16,15,9
+9 enseigne: 8,24,28,26,33,9,21,36,15,4,12,34
+salle pour 0: 2,1,0,3
+salle pour 1: 0,1,3,4
+salle pour 2: 4,3,0,2
+salle pour 3: 0,4,1
+salle pour 4: 1,4,2
+salle pour 5: 2,4,0,1
+salle pour 6: 1,3,0,4
+salle pour 7: 3,2,1,0,4
+salle pour 8: 0,3,1
+salle pour 9: 0,3,4,2
+salle pour 10: 0,1,2,3
+salle pour 11: 2,4,3,0
+salle pour 12: 0,3,1,2,4
+salle pour 13: 4,2,1
+salle pour 14: 4,0,3
+salle pour 15: 1,3,0
+salle pour 16: 0,4,1,3
+salle pour 17: 2,3,1
+salle pour 18: 2,3,0,4
+salle pour 19: 3,4,2
+salle pour 20: 2,0,4,3
+salle pour 21: 4,3,1
+salle pour 22: 4,0,1
+salle pour 23: 3,1,2
+salle pour 24: 1,2,3,0,4
+salle pour 25: 0,2,1,4,3
+salle pour 26: 2,4,1
+salle pour 27: 0,2,4,1,3
+salle pour 28: 4,2,1
+salle pour 29: 3,4,0,2,1
+salle pour 30: 4,0,1,2,3
+salle pour 31: 3,1,4,2
+salle pour 32: 1,2,3,0
+salle pour 33: 2,0,4,1
+salle pour 34: 1,2,3,4
+salle pour 35: 0,2,1
+salle pour 36: 2,1,3
+salle pour 37: 0,3,4,2,1
+salle pour 38: 3,1,2,4
+salle pour 39: 1,3,0
+0 indisponible: 9,1,8
+3 indisponible: 9
+4 indisponible: 1
+5 indisponible: 1,4,8
+7 indisponible: 4

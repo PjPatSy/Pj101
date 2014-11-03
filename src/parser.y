@@ -20,14 +20,14 @@ using namespace std;
 %}
 
 %token <i> ENTIER 
-%token ENSEIGNANTS SALLES CRENEAUX COURS ENSEIGNE SALLE POUR INDISPONIBLE COLON COMMA NL END
+%token ENSEIGNANTS SALLES CRENEAUX COURS ENSEIGNE SALLE POUR INDISPONIBLE COLON COMMA NL END DOTDOT
 
 
 %start PROBLEME
 %%
 
 PROBLEME:
-  HEADERS CONTRAINTES END {YYACCEPT;}
+  HEADERS CONTRAINTES {YYACCEPT;}
 ;
 
 HEADERS:
@@ -44,7 +44,7 @@ HEADER:
 
 CONTRAINTES:
   CONTRAINTE NL CONTRAINTES {}
-| CONTRAINTE NL {}
+| {}
 ;
 
 CONTRAINTE:
@@ -52,7 +52,7 @@ CONTRAINTE:
       pb.enseigne[$1].insert(lus.begin(),lus.end());
       lus.clear();
     }
-| SALLES POUR ENTIER COLON LISTE_ENTIERS { 
+| SALLE POUR ENTIER COLON LISTE_ENTIERS { 
       pb.salles[$3].insert(lus.begin(),lus.end());
       lus.clear(); 
     }
@@ -63,12 +63,18 @@ CONTRAINTE:
 ;
 
 LISTE_ENTIERS:  
-  ENTIER COMMA { lus.push_back($1); } LISTE_ENTIERS {}
+  SEQ_ENTIERS COMMA LISTE_ENTIERS {}
+| SEQ_ENTIERS {}
+;
+
+SEQ_ENTIERS:    
+  ENTIER DOTDOT ENTIER { from_to($1,$3,lus); }
 | ENTIER { lus.push_back($1); }
 ;
+
 %%
 void yy::parser::error(yy::location const& loc, std::string const& s){
-    cerr<<endl<<loc<<": "<<s<<endl;
+    cerr<<endl<<loc<<": "<<s<<endl<<endl;
 }
 
 probleme lit_probleme() {
@@ -97,5 +103,11 @@ probleme lit_probleme(const string & s) {
     istringstream is (s);
     set_yy_buffer(is);
     return lit_probleme();
+}
+
+void from_to(int from, int to, vector<int>& lus) {
+  for(int i = from; i <= to; ++i) {
+    lus.push_back(i);
+  }
 }
 

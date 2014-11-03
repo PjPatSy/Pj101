@@ -1,0 +1,15 @@
+enseignants: 3
+salles: 3
+creneaux: 3
+cours: 6
+0 enseigne: 4,2
+1 enseigne: 1,4
+2 enseigne: 0,3
+salle pour 0: 2,1,0
+salle pour 1: 1
+salle pour 2: 0,2
+salle pour 3: 0,2,1
+salle pour 4: 0
+salle pour 5: 2
+0 indisponible: 2
+1 indisponible: 0
