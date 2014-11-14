@@ -37,10 +37,51 @@ TEST(lit_ecrit_dimacs) {
     CHECK(d.nbVars == 4);
 }
 
+TEST(clause1){
+	cls_t cl1 = {1, 4, 7, 6};
+	cls_t cl2 = {1, 4, 9, 10};
+	CHECK(cl1 != cl2);
+	CHECK(cl2 != cl1);
+	CHECK(cl1 == cl1);
+	CHECK(cl2 == cl2);
+	// Le test fonctionne (tous les CHECK son égales à vrai)
+}
+
+TEST(cnfEstDans){
+	cls_t cl1 = {1, 4, 7, 6};
+	cls_t cl2 = {1, 4, 9, 10};
+	cnf_t cnf1 = {cl1, cl2};
+	CHECK(est_dans(cl1, cnf1));
+	CHECK(est_dans(cl2, cnf1));
+}
+
+TEST(var2lit){
+	CHECK(var2lit(2) == 4);
+	CHECK(var2lit(2, false) == 5);
+	CHECK(var2lit(5, false) == 11);
+}
+
+TEST(neg){
+	CHECK(neg(2) == 3);
+	CHECK(neg(3) == 2);
+	CHECK(neg(7) == 6);
+}
+
+TEST(lit2var){
+	CHECK(lit2var(4) == 2);
+	CHECK(lit2var(5) == 2);
+	CHECK(lit2var(10) == 5);
+}
+
+TEST(positif){
+	CHECK(positif(4));
+	CHECK(!positif(5));
+	CHECK(positif(0));
+}
 
 int main()
 {
-	lit_t a = 12;
+	/*lit_t a = 12;
 	lit_t b = 1;
 	lit_t c = 7;
 	lit_t d = 9;
@@ -52,6 +93,8 @@ int main()
 	cnf_t vect = {listeA, listeB};
 	//~ cout << vect << '\n';
 	if(est_dans(listeC, vect)) cout << "ok" << endl;
-	else cout << "pas ok" << endl;
+	else cout << "pas ok" << endl;*/
+	
+	
 	return UnitTest::RunAllTests(); // un peu magique: lance tous les tests
 }

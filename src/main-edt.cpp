@@ -12,7 +12,29 @@ void usage() {
 }
 
 int main(int argc, char ** argv) {
-    probleme pb;
+	
+	// Problem 8 : exemple cours
+	probleme pb;
+	pb.nb_enseignants = 2;
+	pb.nb_cours = 2;
+	pb.nb_creneaux = 2;
+	pb.nb_salles = 3;
+	
+	
+	pb.enseigne.resize(pb.nb_enseignants);
+	pb.enseigne[0] = {0, 1, 2};
+	pb.enseigne[1] = {0, 1};
+	pb.salles.resize(pb.nb_salles);
+	pb.salles[0] = {0};
+	pb.salles[1] = {0};
+	pb.salles[2] = {0, 1};
+	pb.indisponibilites.resize(1);
+	pb.indisponibilites[0] = {1};
+
+
+	cout << "Args(" << argc << ") : " << argv[0] << endl;
+	
+    /*probleme pb;
     pb.nb_salles = 0;
     bool probleme_vers_formule = true;
     string input = "";
@@ -72,6 +94,7 @@ int main(int argc, char ** argv) {
               return 1;
             }
         }
-    }
+    }*/
+    
     return 0;
 }
