@@ -43,21 +43,27 @@ void affiche_solution_html(ostream& out, solution& sol, probleme& pb) {
 }
 
 void init_lits(const probleme& pb, lit_edt& vars){
-	int j;
-	cout << "dd" << endl;
-	/*for(j = 0; j < pb->enseigne[i][j].size; j++){
-		if(pb->enseigne[i][j] == j){
-			vars[i]->push(var2lit(pb->enseigne[i][j]));
-		}else{
-			
-			for(int cpt = j; cpt < pb->enseigne[i][j]; cpt++){
-				vars[i]->push(var2lit(cpt, false));
-			}
+	int cpt = 0;
+	vars.Cr_En.resize(pb.nb_cours);
+	vars.Cr_Sal.resize(pb.nb_cours);
+	vars.Cr_Cx.resize(pb.nb_cours);
+	
+	
+	for(int i=0; i < pb.nb_cours; i++){
+		for(int j=0; j < pb.nb_enseignants; j++){
+			vars.Cr_En[i].push_back(var2lit(cpt++));
 		}
 	}
-	for(int cpt = pb->enseigne[i][j]; cpt < pb->nb_cours; cpt++){
-		vars[i]->push(var2lit(cpt, false));
-	}*/
+	for(int i=0; i < pb.nb_cours; i++){
+		for(int j=0; j < pb.nb_salles; j++){
+			vars.Cr_Sal[i].push_back(var2lit(cpt++));
+		}
+	}
+	for(int i=0; i < pb.nb_cours; i++){
+		for(int j=0; j < pb.nb_creneaux; j++){
+			vars.Cr_Cx[i].push_back(var2lit(cpt++));
+		}
+	}
 }
 
 // A coder
