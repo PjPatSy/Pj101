@@ -8,3 +8,4 @@
 7) Indisponibilité Eenseignant principe : (Cr_En et Cr_Cx) => NCr_Crx reviens à la clause NCr_En ou NCr_Cx
 -> Vérifier ce principe
 -> Normalement un enseignant indisponible sur ce créneau ne sera pas ACCEPTE par cette clause
+8) !! Enlever les "cout" dans la fonction init_vars

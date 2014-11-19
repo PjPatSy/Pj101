@@ -263,7 +263,6 @@ void indisponibilites_enseignant(ostream& out, const probleme& pb, const lit_edt
 			// Si l'enseignant enseigne cours i et que le cours i est donné sur le créneau it
 			if(pb.enseigne[enseignant].find(i) != pb.enseigne[enseignant].end()){ 
 				cls_t cl = {neg(vars.Cr_En[i][enseignant]), neg(vars.Cr_Cx[i][*it])};
-				cout << cl << endl;
 				ecrit_clause_dimacs(out, cl);
 			}
 		}
@@ -281,16 +280,42 @@ void contrainte_indisponibilites(ostream& out, const probleme& pb, const lit_edt
 // A coder
 void ecrit_cnf_probleme(ostream& out, probleme& pb) {
     lit_edt vars;
-	init_lits(pb, vars);
+	init_lits(pb, vars); // Initialisation de vars
     
+    // Contraintes implicites
+    cours_salle_creneau(out, pb, vars);
+    cours_enseignant_creneau(out, pb, vars);
     cours_exactement_une_fois(out, pb, vars);
 	cours_exactement_une_salle(out, pb, vars);
 	cours_exactement_un_enseignant(out, pb, vars);
+	
+	// Contrainte explicites
+	contrainte_enseigne(out, pb, vars);
+	contraintes_salles_cours(out, pb, vars);
+	contrainte_indisponibilites(out, pb, vars);
 }
 
-// A coder
 solution construit_solution(set<lit_t>& modele, probleme& pb) {
-    solution sol;
+	modele = {1,2,5,6,8,11,12,15,16,19,21,22,25,26,28,31,32,35};
+	solution sol;
+	lit_edt vars;
+	init_lits(pb, vars);
+	
+	sol.resize(pb.nb_cours); // Initialisation solution vide
+	
+	set<lit_t>::iterator it = modele.begin();
+	for(int i=0; i < pb.nb_cours; i++){
+		
+		//~ for(; !positif(*it); it++){
+			//~ if(*it >= vars.Cr_Sal[0][0]){
+				//~ cerr << "Erreur dans le modele : Pas assez de cours representes." << endl;
+				//~ return sol;
+			//~ }
+		//~ }
+		
+	}
+	
+    
     return sol;
 }
 
