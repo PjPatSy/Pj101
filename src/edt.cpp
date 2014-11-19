@@ -64,11 +64,228 @@ void init_lits(const probleme& pb, lit_edt& vars){
 			vars.Cr_Cx[i].push_back(var2lit(cpt++));
 		}
 	}
+	
+	cout << "Cr_En : " << endl;
+	for(int i=0; i < pb.nb_cours; i++){
+		cout << "\t";
+		for(int j=0; j < pb.nb_enseignants; j++){
+			cout << vars.Cr_En[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+	cout << "Cr_Sal : " << endl;
+	for(int i=0; i < pb.nb_cours; i++){
+		cout << "\t";
+		for(int j=0; j < pb.nb_salles; j++){
+			cout << vars.Cr_Sal[i][j] << " ";
+		}
+		cout << endl;
+	}
+	
+	
+	cout << "Cr_Cx : " << endl;
+	for(int i=0; i < pb.nb_cours; i++){
+		cout << "\t";
+		for(int j=0; j < pb.nb_creneaux; j++){
+			cout << vars.Cr_Cx[i][j] << " ";
+		}
+		cout << endl;
+	}
 }
+
+void cours_salle_creneau(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours-1; i++){
+		for(int j=i+1; j < pb.nb_cours; j++){
+			for(int k=0; k < pb.nb_salles; k++){
+				for(int l=0; l < pb.nb_creneaux; l++){
+					cours_salle_creneau(out, vars, i, j, k, l);
+				}
+			}
+		}
+	}
+}
+
+
+void cours_salle_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int salle, int creneau){
+	cls_t clause = {neg(vars.Cr_Sal[cours1][salle]),
+					neg(vars.Cr_Sal[cours2][salle]),
+					neg(vars.Cr_Cx[cours1][creneau]),
+					neg(vars.Cr_Cx[cours2][creneau])
+					};
+	ecrit_clause_dimacs(out, clause);
+}
+
+void cours_enseignant_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int enseignant, int creneau){
+	
+	cls_t clause = {neg(vars.Cr_En[cours1][enseignant]),
+					neg(vars.Cr_En[cours2][enseignant]),
+					neg(vars.Cr_Cx[cours1][creneau]),
+					neg(vars.Cr_Cx[cours2][creneau])
+					};
+	
+	ecrit_clause_dimacs(out, clause);
+}
+
+void cours_enseignant_creneau(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours-1; i++){
+		for(int j=i+1; j < pb.nb_cours; j++){
+			for(int k=0; k < pb.nb_enseignants; k++){
+				for(int l=0; l < pb.nb_creneaux; l++){
+					cours_enseignant_creneau(out, vars, i, j, k, l);
+				}
+			}
+		}
+	}
+}
+
+void cours_au_plus_une_fois(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	for(int i=0; i < pb.nb_creneaux-1; i++){
+		for(int j=i+1; j < pb.nb_creneaux; j++){
+			cls_t cl = {neg(vars.Cr_Cx[cours][i]), neg(vars.Cr_Cx[cours][j])};
+			ecrit_clause_dimacs(out, cl);
+		}
+	}
+}
+
+void cours_au_plus_une_salle(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	for(int i=0; i < pb.nb_salles-1; i++){
+		for(int j=i+1; j < pb.nb_salles; j++){
+			cls_t cl = {neg(vars.Cr_Sal[cours][i]), neg(vars.Cr_Sal[cours][j])};
+			ecrit_clause_dimacs(out, cl);
+		}
+	}
+}
+
+void cours_au_plus_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	for(int i=0; i < pb.nb_enseignants-1; i++){
+		for(int j=i+1; j < pb.nb_enseignants; j++){
+			cls_t cl = {neg(vars.Cr_En[cours][i]), neg(vars.Cr_En[cours][j])};
+			ecrit_clause_dimacs(out, cl);
+		}
+	}
+}
+
+// C'est à dire un parmi tous (a V b V c V...)
+void cours_au_moins_une_fois(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	cls_t cl;
+	for(int i=0; i < pb.nb_creneaux; i++){
+		cl.insert(vars.Cr_Cx[cours][i]);
+	}
+	if(!cl.empty()){
+		ecrit_clause_dimacs(out, cl);
+	}
+}
+
+
+void cours_au_moins_une_salle(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	cls_t cl;
+	for(int i=0; i < pb.nb_salles; i++){
+		cl.insert(vars.Cr_Sal[cours][i]);
+	}
+	if(!cl.empty()){
+		ecrit_clause_dimacs(out, cl);
+	}
+}
+
+void cours_au_moins_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
+	cls_t cl;
+	for(int i=0; i < pb.nb_enseignants; i++){
+		cl.insert(vars.Cr_En[cours][i]);
+	}
+	if(!cl.empty()){
+		ecrit_clause_dimacs(out, cl);
+		/*cout << "Cl -> ";
+		for(cls_t::iterator it = cl.begin(); it != cl.end(); it++){
+			cout << *it << " ";
+		}
+		cout << endl;*/
+	}
+}
+
+void cours_exactement_une_fois(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours; i++){ // Ces contraintes sont pour chaque cours
+		cours_au_plus_une_fois(out, pb, vars, i);
+		cours_au_moins_une_fois(out, pb, vars, i);
+	}
+}
+
+void cours_exactement_une_salle(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours; i++){ // Ces contraintes sont pour chaque cours
+		cours_au_plus_une_salle(out, pb, vars, i);
+		cours_au_moins_une_salle(out, pb, vars, i);
+	}
+}
+
+void cours_exactement_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours; i++){ // Ces contraintes sont pour chaque cours
+		cours_au_plus_un_enseignant(out, pb, vars, i);
+		cours_au_moins_un_enseignant(out, pb, vars, i);
+	}
+}
+
+
+void peut_enseigner_seulement(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> cours){
+	for(int i=0; i < pb.nb_cours; i++){
+		if(cours.find(i) == cours.end()){ // Si on ne trouve pas i, l'enseignant n'enseigne pas ce cours
+			cls_t cl = {neg(vars.Cr_En[i][enseignant])};
+			ecrit_clause_dimacs(out, cl);
+		}
+	}
+}
+
+void contrainte_enseigne(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_enseignants; i++){
+		peut_enseigner_seulement(out, pb, vars, i, pb.enseigne[i]);
+	}
+}
+
+void peut_seulement_avoir_lieu_dans(ostream& out, const probleme& pb, const lit_edt& vars, int cours, set<int> salles){
+	for(int i=0; i < pb.nb_salles; i++){
+		if(salles.find(i) == salles.end()){ // Si on ne trouve pas i, le cours n'a pas lieu dans cette salle
+			cls_t cl = {neg(vars.Cr_Sal[cours][i])};
+			ecrit_clause_dimacs(out, cl);
+		}
+	}
+}
+
+void contraintes_salles_cours(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_cours; i++){
+		peut_seulement_avoir_lieu_dans(out, pb, vars, i, pb.salles[i]);
+	}
+}
+
+
+// Retourne NonCr_En ou NonCr_Cx pour les cours les cours, créneaux où l'enseignant est indisponible
+void indisponibilites_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> creneaux_indisponibles){
+	for(set<int>::iterator it = creneaux_indisponibles.begin(); it != creneaux_indisponibles.end(); it++){
+		for(int i=0; i < pb.nb_cours; i++){
+			// Si l'enseignant enseigne cours i et que le cours i est donné sur le créneau it
+			if(pb.enseigne[enseignant].find(i) != pb.enseigne[enseignant].end()){ 
+				cls_t cl = {neg(vars.Cr_En[i][enseignant]), neg(vars.Cr_Cx[i][*it])};
+				cout << cl << endl;
+				ecrit_clause_dimacs(out, cl);
+			}
+		}
+	}
+}
+
+void contrainte_indisponibilites(ostream& out, const probleme& pb, const lit_edt& vars){
+	for(int i=0; i < pb.nb_enseignants; i++){
+		indisponibilites_enseignant(out, pb, vars, i, pb.indisponibilites[i]);
+	}
+}
+
+
 
 // A coder
 void ecrit_cnf_probleme(ostream& out, probleme& pb) {
-    out << "A implementer" << endl;
+    lit_edt vars;
+	init_lits(pb, vars);
+    
+    cours_exactement_une_fois(out, pb, vars);
+	cours_exactement_une_salle(out, pb, vars);
+	cours_exactement_un_enseignant(out, pb, vars);
 }
 
 // A coder

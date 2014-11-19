@@ -44,63 +44,44 @@ struct lit_edt {
 // On utilisera un compteur pour générer des variables représentées par un numéro.
 void init_lits(const probleme& pb, lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 // Génère la clause qui exprime que deux cours ne peuvent avoir lieu
 // en même temps au même endroit.
 void cours_salle_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int salle, int creneau);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_salle_creneau(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_moins_une_fois(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_plus_une_fois(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_exactement_une_fois(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_moins_une_salle(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_plus_une_salle(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_exactement_une_salle(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_moins_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_au_plus_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_exactement_un_enseignant(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_enseignant_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int enseignant, int creneau);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void cours_enseignant_creneau(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void peut_enseigner_seulement(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> cours);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void contrainte_enseigne(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void peut_seulement_avoir_lieu_dans(ostream& out, const probleme& pb, const lit_edt& vars, int cours, set<int> salles);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void contraintes_salles_cours(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void indisponibilites_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> creneaux_indisponibles);
-
-// A coder /////////////////////////////////////////////////////////////////////
+ 
 void contrainte_indisponibilites(ostream& out, const probleme& pb, const lit_edt& vars);
 
 // A coder /////////////////////////////////////////////////////////////////////

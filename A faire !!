@@ -1,1 +1,10 @@
 1) Faire le TEST permettant de vérifier l'affichage d'un CNF (début du projet)
+2) Penser à retirer l'affichage des tableau dans init_lit
+3) Vérifier algos : cours_enseignant_creneau et cours_salle_creneau
+4) Vérifier si c'est bien ce qu'il faut faire dans : au_plus_... -> (Na V Nb) et (Na V Nc) et (Nb V Nc)
+-> Ex : tester au_plus_une_fois avec plus de 2 créneaux
+5) Tester les fonctions exactement_un....
+6) Pour peut_..._seulement : Faut t'il seulement negation des cours ou aussi proposer un choix dans les nouveauw cours
+7) Indisponibilité Eenseignant principe : (Cr_En et Cr_Cx) => NCr_Crx reviens à la clause NCr_En ou NCr_Cx
+-> Vérifier ce principe
+-> Normalement un enseignant indisponible sur ce créneau ne sera pas ACCEPTE par cette clause
