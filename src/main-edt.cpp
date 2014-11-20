@@ -12,15 +12,15 @@ void usage() {
 }
 
 int main(int argc, char ** argv) {
-	string srcPb = "test-data/pb-simple5b.txt";
-	ifstream pbFile(srcPb);
+	//~ string srcPb = "test-data/pb-simple5b.txt";
+	//~ ifstream pbFile(srcPb);
 	
-	probleme pb = lit_probleme(pbFile);
-	//~ 
-	lit_edt vars;
-	init_lits(pb, vars);
-	set<lit_t> modele;
-	construit_solution(modele, pb);
+	//~ probleme pb = lit_probleme(pbFile);
+	
+	//~ lit_edt vars;
+	//~ init_lits(pb, vars);
+	//~ set<lit_t> modele;
+	//~ construit_solution(modele, pb);
 
 	//~ cours_salle_creneau(cout, vars, 0, 2, 0, 1);
 	//~ cours_enseignant_creneau(cout, vars, 0, 2, 1, 1);
@@ -48,7 +48,7 @@ int main(int argc, char ** argv) {
 	
 
 
-    /*probleme pb;
+    probleme pb;
     pb.nb_salles = 0;
     bool probleme_vers_formule = true;
     string input = "";
@@ -108,7 +108,7 @@ int main(int argc, char ** argv) {
               return 1;
             }
         }
-    }*/
+    }
     
     return 0;
 }
