@@ -296,6 +296,11 @@ void ecrit_cnf_probleme(ostream& out, probleme& pb) {
 solution construit_solution(set<lit_t>& modele, probleme& pb) {
 	solution sol;
 	
+	for(set<lit_t>::iterator it = modele.begin(); it != modele.end(); it++){
+		cout << *it << endl;
+	}
+	
+	
 	lit_edt vars;
 	init_lits(pb, vars);
 	
@@ -307,9 +312,9 @@ solution construit_solution(set<lit_t>& modele, probleme& pb) {
 		int k; // Salle
 		int l; // Creneau
 		
-		for(j=0; modele.find(vars.Cr_En[i][j]) != modele.end() && j < pb.nb_enseignants; j++);
-		for(k=0; modele.find(vars.Cr_Sal[i][k]) != modele.end() && k < pb.nb_salles; k++);
-		for(l=0; modele.find(vars.Cr_Cx[i][l]) != modele.end() && l < pb.nb_creneaux; l++);
+		for(j=0; modele.find(vars.Cr_En[i][j]) == modele.end() && j < pb.nb_enseignants; j++);
+		for(k=0; modele.find(vars.Cr_Sal[i][k]) == modele.end() && k < pb.nb_salles; k++);
+		for(l=0; modele.find(vars.Cr_Cx[i][l]) == modele.end() && l < pb.nb_creneaux; l++);
 		affectation af = {j, i, k, l};
 		sol[i] = af;
 	}
