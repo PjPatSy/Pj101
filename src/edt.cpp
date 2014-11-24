@@ -48,7 +48,6 @@ void init_lits(const probleme& pb, lit_edt& vars){
 	vars.Cr_Sal.resize(pb.nb_cours);
 	vars.Cr_Cx.resize(pb.nb_cours);
 	
-	
 	for(int i=0; i < pb.nb_cours; i++){
 		for(int j=0; j < pb.nb_enseignants; j++){
 			vars.Cr_En[i].push_back(var2lit(cpt++));
@@ -64,34 +63,16 @@ void init_lits(const probleme& pb, lit_edt& vars){
 			vars.Cr_Cx[i].push_back(var2lit(cpt++));
 		}
 	}
-	
-	cout << "Cr_En : " << endl;
-	for(int i=0; i < pb.nb_cours; i++){
-		cout << "\t";
-		for(int j=0; j < pb.nb_enseignants; j++){
-			cout << vars.Cr_En[i][j] << " ";
-		}
-		cout << endl;
-	}
-	
-	cout << "Cr_Sal : " << endl;
-	for(int i=0; i < pb.nb_cours; i++){
-		cout << "\t";
-		for(int j=0; j < pb.nb_salles; j++){
-			cout << vars.Cr_Sal[i][j] << " ";
-		}
-		cout << endl;
-	}
-	
-	
-	cout << "Cr_Cx : " << endl;
-	for(int i=0; i < pb.nb_cours; i++){
-		cout << "\t";
-		for(int j=0; j < pb.nb_creneaux; j++){
-			cout << vars.Cr_Cx[i][j] << " ";
-		}
-		cout << endl;
-	}
+}
+
+void cours_salle_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int salle, int creneau){
+	cls_t clause = {neg(vars.Cr_Sal[cours1][salle]),
+					neg(vars.Cr_Sal[cours2][salle]),
+					neg(vars.Cr_Cx[cours1][creneau]),
+					neg(vars.Cr_Cx[cours2][creneau])
+					};
+					
+	ecrit_clause_dimacs(out, clause);
 }
 
 void cours_salle_creneau(ostream& out, const probleme& pb, const lit_edt& vars){
@@ -106,18 +87,7 @@ void cours_salle_creneau(ostream& out, const probleme& pb, const lit_edt& vars){
 	}
 }
 
-
-void cours_salle_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int salle, int creneau){
-	cls_t clause = {neg(vars.Cr_Sal[cours1][salle]),
-					neg(vars.Cr_Sal[cours2][salle]),
-					neg(vars.Cr_Cx[cours1][creneau]),
-					neg(vars.Cr_Cx[cours2][creneau])
-					};
-	ecrit_clause_dimacs(out, clause);
-}
-
 void cours_enseignant_creneau(ostream& out, const lit_edt& vars, int cours1, int cours2, int enseignant, int creneau){
-	
 	cls_t clause = {neg(vars.Cr_En[cours1][enseignant]),
 					neg(vars.Cr_En[cours2][enseignant]),
 					neg(vars.Cr_Cx[cours1][creneau]),
@@ -166,7 +136,6 @@ void cours_au_plus_un_enseignant(ostream& out, const probleme& pb, const lit_edt
 	}
 }
 
-// C'est à dire un parmi tous (a V b V c V...)
 void cours_au_moins_une_fois(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
 	cls_t cl;
 	for(int i=0; i < pb.nb_creneaux; i++){
@@ -176,7 +145,6 @@ void cours_au_moins_une_fois(ostream& out, const probleme& pb, const lit_edt& va
 		ecrit_clause_dimacs(out, cl);
 	}
 }
-
 
 void cours_au_moins_une_salle(ostream& out, const probleme& pb, const lit_edt& vars, int cours){
 	cls_t cl;
@@ -195,11 +163,6 @@ void cours_au_moins_un_enseignant(ostream& out, const probleme& pb, const lit_ed
 	}
 	if(!cl.empty()){
 		ecrit_clause_dimacs(out, cl);
-		/*cout << "Cl -> ";
-		for(cls_t::iterator it = cl.begin(); it != cl.end(); it++){
-			cout << *it << " ";
-		}
-		cout << endl;*/
 	}
 }
 
@@ -223,7 +186,6 @@ void cours_exactement_un_enseignant(ostream& out, const probleme& pb, const lit_
 		cours_au_moins_un_enseignant(out, pb, vars, i);
 	}
 }
-
 
 void peut_enseigner_seulement(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> cours){
 	for(int i=0; i < pb.nb_cours; i++){
@@ -256,12 +218,12 @@ void contraintes_salles_cours(ostream& out, const probleme& pb, const lit_edt& v
 }
 
 
-// Retourne NonCr_En ou NonCr_Cx pour les cours les cours, créneaux où l'enseignant est indisponible
+// Retourne NonCr_En ou NonCr_Cx pour les cours, l'enseignant est indisponible
 void indisponibilites_enseignant(ostream& out, const probleme& pb, const lit_edt& vars, int enseignant, set<int> creneaux_indisponibles){
 	for(set<int>::iterator it = creneaux_indisponibles.begin(); it != creneaux_indisponibles.end(); it++){
 		for(int i=0; i < pb.nb_cours; i++){
 			// Si l'enseignant enseigne cours i et que le cours i est donné sur le créneau it
-			if(pb.enseigne[enseignant].find(i) != pb.enseigne[enseignant].end()){ 
+			if(pb.enseigne[enseignant].find(i) != pb.enseigne[enseignant].end()){
 				cls_t cl = {neg(vars.Cr_En[i][enseignant]), neg(vars.Cr_Cx[i][*it])};
 				ecrit_clause_dimacs(out, cl);
 			}
@@ -296,32 +258,22 @@ void ecrit_cnf_probleme(ostream& out, probleme& pb) {
 solution construit_solution(set<lit_t>& modele, probleme& pb) {
 	solution sol;
 	
-	for(set<lit_t>::iterator it = modele.begin(); it != modele.end(); it++){
-		cout << *it << endl;
-	}
-	
-	
 	lit_edt vars;
 	init_lits(pb, vars);
 	
 	sol.resize(pb.nb_cours); // Initialisation solution vide
-	
 	
 	for(int i=0; i < pb.nb_cours; i++){
 		int j; // Enseignant
 		int k; // Salle
 		int l; // Creneau
 		
-		for(j=0; modele.find(vars.Cr_En[i][j]) == modele.end() && j < pb.nb_enseignants; j++);
-		for(k=0; modele.find(vars.Cr_Sal[i][k]) == modele.end() && k < pb.nb_salles; k++);
-		for(l=0; modele.find(vars.Cr_Cx[i][l]) == modele.end() && l < pb.nb_creneaux; l++);
+		for(j=0; modele.find(vars.Cr_En[i][j]) != modele.end() && j < pb.nb_enseignants; j++);
+		for(k=0; modele.find(vars.Cr_Sal[i][k]) != modele.end() && k < pb.nb_salles; k++);
+		for(l=0; modele.find(vars.Cr_Cx[i][l]) != modele.end() && l < pb.nb_creneaux; l++);
 		affectation af = {j, i, k, l};
 		sol[i] = af;
 	}
-
-	/*for(unsigned int i=0; i < sol.size(); i++){
-		cout << "Enseignant : " << sol[i].enseignant <<" Cours : " << sol[i].cours << " Salle : " << sol[i].salle << " Creneau : " << sol[i].creneau << endl;   
-	}*/
 	
     return sol;
 }
