@@ -9,34 +9,34 @@
 using namespace std;
 
 struct probleme {
-  int nb_enseignants;
-  int nb_cours;
-  int nb_creneaux;
-  int nb_salles;
-  // pb.enseigne[i]={j1,j2,...}
-  // correspond à la contrainte "i enseigne: j1, j2, ..."
-  vector< set<int> > enseigne; 
-  // pb.salles[i]={j1,j2,...} correspond 
-  // à la contrainte "salles pour i: j1, j2, ..."
-  vector< set<int> > salles;
-  // pb.indisponibilites[i]={j1,j2,...} correspond à la 
-  // contrainte "i indisponible: j1, j2, ..."
-  vector< set<int> > indisponibilites;
+	int nb_enseignants;
+	int nb_cours;
+	int nb_creneaux;
+	int nb_salles;
+	// pb.enseigne[i]={j1,j2,...}
+	// correspond à la contrainte "i enseigne: j1, j2, ..."
+	vector< set<int> > enseigne; 
+	// pb.salles[i]={j1,j2,...} correspond 
+	// à la contrainte "salles pour i: j1, j2, ..."
+	vector< set<int> > salles;
+	// pb.indisponibilites[i]={j1,j2,...} correspond à la 
+	// contrainte "i indisponible: j1, j2, ..."
+	vector< set<int> > indisponibilites;
 };
 
 void init_probleme(probleme& pb);
 
 // Structure stockant les littéraux qui représentent un emploi du temps.
 struct lit_edt {
-  // le littéral Cr_En[i][j] est vrai si l'enseignant Ens_j enseigne
-  // le cours Crs_i.
-  vector< vector<lit_t> > Cr_En; 
-  // le littéral Cr_Sal[i][j] est vrai si le cours Crs_i a lieu
-  // dans la salle Sl_j.
-  vector< vector<lit_t> > Cr_Sal;
-  // le littéral Cr_Cx[i][j] est vrai si le cours Crs_i a lieu
-  // au créneau Cx_j.
-  vector< vector<lit_t> > Cr_Cx;
+	// le littéral Cr_En[i][j] est vrai si l'enseignant Ens_j enseigne
+	// le cours Crs_i.
+	vector< vector<lit_t> > Cr_En; 
+	// le littéral Cr_Sal[i][j] est vrai si le cours Crs_i a lieu
+	// dans la salle Sl_j.
+	vector< vector<lit_t> > Cr_Sal;
+	// le littéral Cr_Cx[i][j] est vrai si le cours Crs_i a lieu
+	// au créneau Cx_j.
+	vector< vector<lit_t> > Cr_Cx;
 };
 
 // A coder /////////////////////////////////////////////////////////////////////
@@ -90,10 +90,10 @@ void ecrit_cnf_probleme(ostream& out, probleme& pb);
 // Représente un morceau de solution, i.e. l'affectation à un cours
 // d'un enseignant, d'une salle et d'un créneau.
 struct affectation {
-  int enseignant; // numero de l'enseignant faisant cours
-  int cours; // numero du cours
-  int salle; // le numero de la salle
-  int creneau; // le creneau concerné
+	int enseignant; // numero de l'enseignant faisant cours
+	int cours; // numero du cours
+	int salle; // le numero de la salle
+	int creneau; // le creneau concerné
 };
 
 typedef vector<affectation> solution;
