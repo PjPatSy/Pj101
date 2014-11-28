@@ -5,6 +5,7 @@
 #include "formule.hpp"
 #include "parser.hpp"
 #include "dimacs.hpp"
+#include "sat.hpp"
 
 TEST(estDans){
 	cls_t cls1 = {1, 4, 7, 6};
@@ -71,7 +72,33 @@ TEST(clause1){
 	CHECK(cl2 != cl1);
 	CHECK(cl1 == cl1);
 	CHECK(cl2 == cl2);
-	// Le test fonctionne (tous les CHECK son égales à vrai)
+}
+
+TEST(valeur_lit){
+	vector<val_t> valeurs = {VRAI, INDETERMINEE, FAUX};
+	CHECK(valeur_lit(valeurs, 0) == VRAI);
+	CHECK(valeur_lit(valeurs, 5) == FAUX);
+	CHECK(valeur_lit(valeurs, 3) == INDETERMINEE);
+	CHECK(valeur_lit(valeurs, 6) == INDETERMINEE);
+}
+
+TEST(valeur_clause){
+	vector<val_t> valeurs = {VRAI, INDETERMINEE, FAUX, FAUX, INDETERMINEE, FAUX};
+	CHECK(valeur_clause(valeurs, cls_t {0, 3, 5, 9}) == VRAI);
+	CHECK(valeur_clause(valeurs, cls_t {4, 5, 6, 7, 10, 11}) == FAUX);
+	CHECK(valeur_clause(valeurs, cls_t {3, 5, 9}) == INDETERMINEE);
+	CHECK(valeur_clause(valeurs, cls_t {4, 5, 6, 7, 10, 11, 12}) == INDETERMINEE);
+}
+
+TEST(valeur_cnf){
+	vector<val_t> valeurs = {VRAI, INDETERMINEE, FAUX, FAUX, INDETERMINEE, FAUX};
+	cls_t clauseVraie = {0, 3, 5, 9};
+	cls_t clauseFaux = {4, 5, 6, 7, 10, 11};
+	cls_t clauseIndet = {3, 5, 9};
+	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseVraie}) == VRAI);
+	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseFaux, clauseIndet}) == FAUX);
+	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseIndet}) == INDETERMINEE);
+	CHECK(valeur_cnf(valeurs, cnf_t {clauseIndet}) == INDETERMINEE);
 }
 
 int main(){	

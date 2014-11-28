@@ -277,4 +277,3 @@ solution construit_solution(set<lit_t>& modele, probleme& pb) {
 	
     return sol;
 }
-
