@@ -37,10 +37,21 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 	return result;
 }
 
-//~ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
-	//~ // A FAIRE
-	//~ return false;
-//~ } 
+// Pas compris.. à vérifier !
+bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
+	if(suiv > valeurs.size() && valeur_cnf(valeurs, cnf)){
+		return true;
+	}
+	if(cherche(valeurs, suive + 1, cnf)){
+		return true;
+	}
+	valeurs[suiv] == FAUX;
+	if(cherche(valeurs, suive + 1, cnf)){
+		return true;
+	}
+	suiv = INDETERMINEE;
+	return false;
+} 
 
 //~ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 	//~ // A FAIRE
