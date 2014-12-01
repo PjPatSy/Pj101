@@ -1,12 +1,16 @@
 #include "sat.hpp"
 
-////////////////////////////////////////////////////////////////////////////////
-//               ICI LES FONCTIONS SONT A IMPLEMENTER                         //
-////////////////////////////////////////////////////////////////////////////////
-
 val_t valeur_lit(const vector<val_t> & valeurs, lit_t l) {
 	if(lit2var(l) < valeurs.size()){
-		return valeurs[lit2var(l)];
+		if(positif(l)){
+			return valeurs[lit2var(l)];
+		}else{
+			if(valeurs[lit2var(l)] == INDETERMINEE){
+				return INDETERMINEE;
+			}else{
+				return -1 * valeurs[lit2var(l)];
+			}
+		}
 	}
 	return INDETERMINEE;
 }
@@ -39,17 +43,17 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 
 // Pas compris.. à vérifier !
 bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
-	if(suiv > valeurs.size() && valeur_cnf(valeurs, cnf)){
-		return true;
-	}
-	if(cherche(valeurs, suive + 1, cnf)){
-		return true;
-	}
-	valeurs[suiv] == FAUX;
-	if(cherche(valeurs, suive + 1, cnf)){
-		return true;
-	}
-	suiv = INDETERMINEE;
+	//~ if(suiv > valeurs.size() && valeur_cnf(valeurs, cnf)){
+		//~ return true;
+	//~ }
+	//~ if(cherche(valeurs, suive + 1, cnf)){
+		//~ return true;
+	//~ }
+	//~ valeurs[suiv] == FAUX;
+	//~ if(cherche(valeurs, suive + 1, cnf)){
+		//~ return true;
+	//~ }
+	//~ suiv = INDETERMINEE;
 	return false;
 } 
 
