@@ -5,7 +5,7 @@
 
 SOLVEUR=minisat
 # Décommenter la ligne suivante pour utiliser votre propre solveur
-# SOLVEUR=$(dirname $0)/sat
+SOLVEUR=$(dirname $0)/sat
 
 EDT=$(dirname $0)/edt
 

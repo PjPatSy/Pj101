@@ -82,7 +82,6 @@ TEST(valeur_lit){
 	CHECK(valeur_lit(valeurs, 5) == VRAI);
 	CHECK(valeur_lit(valeurs, 2) == INDETERMINEE);
 	CHECK(valeur_lit(valeurs, 3) == INDETERMINEE);
-	CHECK(valeur_lit(valeurs, 6) == INDETERMINEE);
 }
 
 TEST(valeur_clause){
@@ -90,18 +89,22 @@ TEST(valeur_clause){
 	CHECK(valeur_clause(valeurs, cls_t {0, 3, 5, 9}) == VRAI);
 	CHECK(valeur_clause(valeurs, cls_t {1, 4, 6, 10}) == FAUX);
 	CHECK(valeur_clause(valeurs, cls_t {1, 2, 3, 4}) == INDETERMINEE);
-	CHECK(valeur_clause(valeurs, cls_t {10, 12}) == INDETERMINEE);
+	CHECK(valeur_clause(valeurs, cls_t {8}) == INDETERMINEE);
 }
 
 TEST(valeur_cnf){
 	vector<val_t> valeurs = {VRAI, INDETERMINEE, FAUX, FAUX, INDETERMINEE, FAUX};
 	cls_t clauseVraie = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 	cls_t clauseFaux = {1, 4, 6, 10};
-	cls_t clauseIndet = {1, 2, 3, 4, 6, 10, 12};
+	cls_t clauseIndet = {1, 2, 3, 4, 6, 10};
 	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseVraie}) == VRAI);
 	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseFaux, clauseIndet}) == FAUX);
 	CHECK(valeur_cnf(valeurs, cnf_t {clauseVraie, clauseIndet}) == INDETERMINEE);
 	CHECK(valeur_cnf(valeurs, cnf_t {clauseIndet}) == INDETERMINEE);
+}
+
+TEST(cherche){
+	// TODO
 }
 
 int main(){	

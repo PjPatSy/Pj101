@@ -16,10 +16,13 @@ int main(int argc, char** argv) {
 	ifstream fichier_cnf(argv[1]);
 	dimacs dimacs_data;
 	lit_dimacs(fichier_cnf, dimacs_data);
-	vector<val_t> valeurs; 	// tableau dont les indices sont des (numéros
-							// de) variables et le contenu est la valeur
-							// affectée à la variable.
-							// A FAIRE: initialiser correctement valeurs;
+	// tableau dont les indices sont des variables et
+	// le contenu est la valeur affectée à la variable.
+	vector<val_t> valeurs;
+	for (int i = 0; i < dimacs_data.nbVars; i++){
+		valeurs.push_back(INDETERMINEE);
+	}
+	
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
 	if (cherche(valeurs, 0, dimacs_data.cnf)) {

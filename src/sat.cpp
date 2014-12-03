@@ -1,18 +1,15 @@
 #include "sat.hpp"
 
 val_t valeur_lit(const vector<val_t> & valeurs, lit_t l) {
-	if(lit2var(l) < valeurs.size()){
-		if(positif(l)){
-			return valeurs[lit2var(l)];
+	if(positif(l)){
+		return valeurs[lit2var(l)];
+	}else{
+		if(valeurs[lit2var(l)] == INDETERMINEE){
+			return INDETERMINEE;
 		}else{
-			if(valeurs[lit2var(l)] == INDETERMINEE){
-				return INDETERMINEE;
-			}else{
-				return -1 * valeurs[lit2var(l)];
-			}
+			return -1 * valeurs[lit2var(l)];
 		}
 	}
-	return INDETERMINEE;
 }
 
 val_t valeur_clause(const vector<val_t> & valeurs, cls_t clause) {
