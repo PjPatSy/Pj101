@@ -48,6 +48,10 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 		}
 	}
 	else{
+		if(valeur_cnf(valeurs, cnf) == FAUX){
+			valeurs[suiv] = INDETERMINEE;
+			return false;
+		}
 		valeurs[suiv] = VRAI;
 		if(cherche(valeurs, suiv + 1, cnf)){
 			return true;

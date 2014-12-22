@@ -7,6 +7,8 @@
 #include "sat.hpp"
 #include "dimacs.hpp"
 
+#include <ctime>
+
 using namespace std;
  
 int main(int argc, char** argv){
@@ -14,6 +16,8 @@ int main(int argc, char** argv){
 		cerr << "Usage: ./sat cnf.dimacs modele.dimacs" << endl;
 		return EXIT_FAILURE;
 	}
+	time_t tbegin, tend;
+	double texec = 0.;
 	
 	ifstream fichier_cnf(argv[1]);
 	//~ string list[6] = {"pb-simple1-unsat.cnf", "pb-simple2-unsat.cnf", "pb-simple3-sat.cnf", "pb-simple4-unsat.cnf", "pb-simple5-sat.cnf", "pb-simple6-sat.cnf"};
@@ -26,6 +30,7 @@ int main(int argc, char** argv){
 	
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
+	tbegin = time(NULL);
 	if(cherche(valeurs, 0, dimacs_data.cnf)){
 		set<lit_t> modele;
 		for(size_t i = 0; i < valeurs.size(); i++){
@@ -44,6 +49,9 @@ int main(int argc, char** argv){
 		fichier_modele << "UNSAT" << endl;
 		cout << "UNSAT" << endl;
 	}
+	tend = time(NULL);
+	texec = difftime(tend, tbegin);
+	cout << "Time exec : " << texec << endl;
 	fichier_modele.close();
 
 }
