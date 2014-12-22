@@ -48,6 +48,8 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 		}
 	}
 	else{
+		/* Si la cnf avec les valeurs actuelles est fausse ça ne sert à rin d'aller plus loin
+		 * On fait donc un retour en arrière dans l'arbre de recherche*/
 		if(valeur_cnf(valeurs, cnf) == FAUX){
 			valeurs[suiv] = INDETERMINEE;
 			return false;
@@ -67,16 +69,43 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 	}
 } 
 
-//~ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
-	//~ // A FAIRE
-	//~ vector<vector<cls_t> > v;
-	//~ return v;
-//~ }
+vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
+	vector<vector<cls_t> > v;
+	for(cnf_t::const_iterator cls = cnf.begin(); cls != cnf.end(); cls++){
+		for(cls_t::iterator it = cls->begin(); it != cls->end(); it++){
+			if(v.size() <= (unsigned int)*it){
+				v.resize(*it+1);
+			}
+			v[*it].push_back(*cls);
+		}
+	}
+	
+	for(unsigned int i=0; i < v.size(); i++){
+		cout << " " << i << " : " << endl;
+		for(unsigned int j=0; j < v[i].size(); j++){
+			cout << "\t" << v[i][j] << endl;
+		}
+	}
+	
+	return v;
+}
 
-//~ bool contient_insatisfaite(var_t variable, const vector<val_t>& valeurs, const vector<vector<cls_t> >& index_clauses) {
-	//~ // A FAIRE
-	//~ return false;
-//~ }
+bool contient_insatisfaite(var_t variable, const vector<val_t>& valeurs, const vector<vector<cls_t> >& index_clauses) {
+	lit_t litF = var2lit(variable, false);
+	lit_t litV = var2lit(variable, true);
+	
+	for(unsigned int i=0; i < index_clauses[litF].size(); i++){
+		if(valeur_clause(valeurs, index_clauses[litF][i]) == FAUX){
+			return true;
+		}
+	}
+	for(unsigned int i=0; i < index_clauses[litV].size(); i++){
+		if(valeur_clause(valeurs, index_clauses[litV][i]) == FAUX){
+			return true;
+		}
+	}
+	return false;
+}
 
 //~ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, cnf_t & cnf, vector<vector<cls_t> > & index) {
 	//~ // A FAIRE

@@ -31,6 +31,10 @@ int main(int argc, char** argv){
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
 	tbegin = time(NULL);
+	
+	vector<vector<cls_t>> res = indexe_clauses(dimacs_data.cnf);
+	
+	
 	if(cherche(valeurs, 0, dimacs_data.cnf)){
 		set<lit_t> modele;
 		for(size_t i = 0; i < valeurs.size(); i++){
