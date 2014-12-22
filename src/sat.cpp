@@ -1,13 +1,14 @@
 #include "sat.hpp"
 
 val_t valeur_lit(const vector<val_t> & valeurs, lit_t l) {
+	//~ cout << (positif(l)? "Positif" : "Negatif") << " -> val : " << valeurs[lit2var(l)] << " - lit2val : " << l << " = " << lit2var(l) << endl;
 	if(positif(l)){
 		return valeurs[lit2var(l)];
 	}else{
 		if(valeurs[lit2var(l)] == INDETERMINEE){
 			return INDETERMINEE;
 		}else{
-			return -1 * valeurs[lit2var(l)];
+			return ((valeurs[lit2var(l)] == FAUX)? VRAI : FAUX);
 		}
 	}
 }
@@ -27,8 +28,18 @@ val_t valeur_clause(const vector<val_t> & valeurs, cls_t clause) {
 
 val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 	val_t result = VRAI;
+	//~ cout << "CNF : " << cnf << endl;
+	//~ cout << "{";
+	//~ for(vector<val_t>::const_iterator it = valeurs.begin(); it != valeurs.end(); it++) {
+		//~ if(it != valeurs.begin()){
+			//~ cout << ",";
+		//~ }
+		//~ cout << *it;
+	//~ }
+	//~ cout << "}" << endl;
+	
 	for(cnf_t::iterator it = cnf.begin(); it != cnf.end(); it++) {
-		if(valeur_clause(valeurs, *it) == FAUX){
+		if(valeur_clause(valeurs, *it) == FAUX){ 
 			return FAUX;
 		}
 		if(valeur_clause(valeurs, *it) == INDETERMINEE) {
@@ -41,7 +52,7 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 // Pas compris.. à vérifier !
 bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 	if(suiv > valeurs.size()){
-		if(valeur_cnf(valeurs, cnf)){
+		if(valeur_cnf(valeurs, cnf)  == VRAI){
 			return true;
 		}else{
 			return false;
