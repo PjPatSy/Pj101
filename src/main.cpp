@@ -9,8 +9,8 @@
 
 using namespace std;
  
-int main(int argc, char** argv) {
-	if (argc < 3) {
+int main(int argc, char** argv){
+	if(argc < 3){
 		cerr << "Usage: ./sat cnf.dimacs modele.dimacs" << endl;
 		return EXIT_FAILURE;
 	}
@@ -26,16 +26,21 @@ int main(int argc, char** argv) {
 	
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
-	if (cherche(valeurs, 0, dimacs_data.cnf)) {
+	if(cherche(valeurs, 0, dimacs_data.cnf)){
 		set<lit_t> modele;
-		for (int i = 0; i < dimacs_data.nbVars; i++){
-			modele.insert(valeurs[i]);
+		for(size_t i = 0; i < valeurs.size(); i++){
+			if(valeurs[i] == VRAI){
+				modele.insert(var2lit(valeurs[i], true));
+			}else{
+				modele.insert(var2lit(valeurs[i], false));
+			}
 		}
+		
 		// remplir modele en fonction des valeurs données à chaque variable
 		fichier_modele << "SAT" << endl;
 		cout << "SAT" << endl;
 		ecrit_clause_dimacs(fichier_modele, modele);
-	} else {
+	}else{
 		fichier_modele << "UNSAT" << endl;
 		cout << "UNSAT" << endl;
 	}
