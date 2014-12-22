@@ -39,7 +39,6 @@ struct lit_edt {
 	vector< vector<lit_t> > Cr_Cx;
 };
 
-// A coder /////////////////////////////////////////////////////////////////////
 // Initialise la structure contenant les littéraux qui représentent l'emploi du temps.
 // On utilisera un compteur pour générer des variables représentées par un numéro.
 void init_lits(const probleme& pb, lit_edt& vars);
@@ -84,7 +83,6 @@ void indisponibilites_enseignant(ostream& out, const probleme& pb, const lit_edt
  
 void contrainte_indisponibilites(ostream& out, const probleme& pb, const lit_edt& vars);
 
-// A coder /////////////////////////////////////////////////////////////////////
 void ecrit_cnf_probleme(ostream& out, probleme& pb);
 
 // Représente un morceau de solution, i.e. l'affectation à un cours
@@ -99,11 +97,9 @@ struct affectation {
 typedef vector<affectation> solution;
 
 
-// A coder /////////////////////////////////////////////////////////////////////
 solution construit_solution(set<lit_t>& modele, probleme& pb);
 
 /** Ecrit la solution sous forme d'un tableau HTML */
-// Cette fonction est déjà codée
 void affiche_solution_html(ostream& out, solution& sol, probleme& pb);
 
 #endif

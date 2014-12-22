@@ -43,7 +43,6 @@ TEST(positif){
 	CHECK(positif(0));
 }
 
-// Exemple de test des fonctions de lecture et d'écriture au format dimacs
 TEST(lit_ecrit_dimacs) {
     cnf_t cnf;
     cnf.push_back({1,3,4,7});

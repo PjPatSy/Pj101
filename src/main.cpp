@@ -1,21 +1,19 @@
+#include <fstream>
+#include <cstdlib>
+#include <iostream>
+
 #include "formule.hpp"
 #include "parser.hpp"
 #include "sat.hpp"
 #include "dimacs.hpp"
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
- 
+
 using namespace std;
  
 int main(int argc, char** argv) {
-	
-	
 	if (argc < 3) {
 		cerr << "Usage: ./sat cnf.dimacs modele.dimacs" << endl;
 		return EXIT_FAILURE;
 	}
-	
 	
 	ifstream fichier_cnf(argv[1]);
 	//~ string list[6] = {"pb-simple1-unsat.cnf", "pb-simple2-unsat.cnf", "pb-simple3-sat.cnf", "pb-simple4-unsat.cnf", "pb-simple5-sat.cnf", "pb-simple6-sat.cnf"};
@@ -24,15 +22,15 @@ int main(int argc, char** argv) {
 	lit_dimacs(fichier_cnf, dimacs_data);
 	// tableau dont les indices sont des variables et
 	// le contenu est la valeur affectée à la variable.
-	vector<val_t> valeurs;
-	for (int i = 0; i < dimacs_data.nbVars; i++){
-		valeurs.push_back(INDETERMINEE);
-	}
+	vector<val_t> valeurs(dimacs_data.nbVars, INDETERMINEE);
 	
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
 	if (cherche(valeurs, 0, dimacs_data.cnf)) {
 		set<lit_t> modele;
+		for (int i = 0; i < dimacs_data.nbVars; i++){
+			modele.insert(valeurs[i]);
+		}
 		// remplir modele en fonction des valeurs données à chaque variable
 		fichier_modele << "SAT" << endl;
 		cout << "SAT" << endl;
