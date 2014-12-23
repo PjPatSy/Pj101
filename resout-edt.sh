@@ -3,8 +3,7 @@
 # Ce script ne fonctionne pas s'il y a des espaces dans les noms de
 # fichier / de répertoires.
 
-SOLVEUR=minisat
-# Décommenter la ligne suivante pour utiliser votre propre solveur
+# SOLVEUR=minisat
 SOLVEUR=$(dirname $0)/sat
 
 EDT=$(dirname $0)/edt

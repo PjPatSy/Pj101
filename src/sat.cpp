@@ -39,6 +39,36 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 	return result;
 }
 
+bool cherche_naive(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
+	if(suiv > valeurs.size()){
+		if(valeur_cnf(valeurs, cnf) == VRAI){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	else{
+		// Si la cnf avec les valeurs actuelles est fausse ça ne sert à rien d'aller plus loin
+		// On fait donc un retour en arrière dans l'arbre de recherche
+		if(valeur_cnf(valeurs, cnf) == FAUX){
+			valeurs[suiv] = INDETERMINEE;
+			return false;
+		}
+		valeurs[suiv] = VRAI;
+		if(cherche_naive(valeurs, suiv + 1, cnf)){
+			return true;
+		}else{
+			valeurs[suiv] = FAUX;
+		}
+		if(cherche_naive(valeurs, suiv + 1, cnf)){
+			return true;
+		}else{
+			valeurs[suiv] = INDETERMINEE;
+			return false;
+		}
+	}
+}
+
 bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
 
 	if(suiv == valeurs.size()-1){
