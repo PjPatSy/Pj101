@@ -1,13 +1,12 @@
 #include <fstream>
 #include <cstdlib>
 #include <iostream>
+#include <ctime>
 
 #include "formule.hpp"
 #include "parser.hpp"
 #include "sat.hpp"
 #include "dimacs.hpp"
-
-#include <ctime>
 
 using namespace std;
  
@@ -53,5 +52,4 @@ int main(int argc, char** argv){
 	texec = difftime(tend, tbegin);
 	cout << "Time exec : " << texec << endl;
 	fichier_modele.close();
-
 }
