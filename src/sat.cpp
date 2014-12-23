@@ -40,33 +40,34 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 }
 
 bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
-	//valeurs[suiv] = FAUX;
-	if(suiv > valeurs.size()){
-		if(!contient_insatisfaite(suiv, valeurs, index)){
+
+	if(suiv == valeurs.size()-1){
+		valeurs[suiv] = VRAI;
+		if(contient_insatisfaite(suiv, valeurs, index)){
+			valeurs[suiv] = FAUX;
+			if(contient_insatisfaite(suiv, valeurs, index)){
+				valeurs[suiv] = INDETERMINEE;
+				return false;
+			}
 			return true;
-		}else{
-			return false;
 		}
+		return true;
 	}
 	else{
-		/* Si la cnf avec les valeurs actuelles est fausse ça ne sert à rin d'aller plus loin
-		 * On fait donc un retour en arrière dans l'arbre de recherche*/
-		if(contient_insatisfaite(suiv, valeurs, index)){
-			valeurs[suiv] = INDETERMINEE;
-			return false;
-		}
 		valeurs[suiv] = VRAI;
-		if(cherche(valeurs, suiv + 1, index)){
-			return true;
-		}else{
-			valeurs[suiv] = FAUX;
+		if(!contient_insatisfaite(suiv, valeurs, index)){
+			if(cherche(valeurs, suiv + 1, index)){
+				return true;
+			}
 		}
-		if(cherche(valeurs, suiv + 1, index)){
-			return true;
-		}else{
-			valeurs[suiv] = INDETERMINEE;
-			return false;
+		valeurs[suiv] = FAUX;
+		if(!contient_insatisfaite(suiv, valeurs, index)){
+			if(cherche(valeurs, suiv + 1, index)){
+				return true;
+			}
 		}
+		valeurs[suiv] = INDETERMINEE;
+		return false;
 	}
 }
 
@@ -109,45 +110,29 @@ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 		}
 	}
 	
-	//~ for(unsigned int i=0; i < v.size(); i++){
-		//~ cout << " " << i << " : " << endl;
-		//~ for(unsigned int j=0; j < v[i].size(); j++){
-			//~ cout << "\t" << v[i][j] << endl;
-		//~ }
-	//~ }
+	// Affichage
+	for(unsigned int i=0; i < v.size(); i++){
+		cout << " " << i << " : " << endl;
+		for(unsigned int j=0; j < v[i].size(); j++){
+			cout << "\t" << v[i][j] << endl;
+		}
+	}
 	
 	return v;
 }
 
 bool contient_insatisfaite(var_t variable, const vector<val_t>& valeurs, const vector<vector<cls_t> >& index_clauses) {
-	//lit_t litF = var2lit(variable, false);
 	lit_t lit;
+	
 	if(valeurs[variable] == FAUX){
 		lit = var2lit(variable, true);
 	}
 	else if(valeurs[variable] == VRAI){
 		lit = var2lit(variable, false);
 	}
-	else{
-		//~ lit = var2lit(variable, true);
-		//~ lit_t litF = var2lit(variable, false);
-		//~ if(litF < (int)index_clauses.size()){
-			//~ for(unsigned int i=0; i < index_clauses[litF].size(); i++){
-				//~ if(valeur_clause(valeurs, index_clauses[litF][i]) == FAUX){
-					//~ return true;
-				//~ }
-			//~ }
-		//~ }
-		//~ if(litV < (int)index_clauses.size()){
-			//~ for(unsigned int i=0; i < index_clauses[litV].size(); i++){
-				//~ if(valeur_clause(valeurs, index_clauses[litV][i]) == FAUX){
-					//~ return true;
-				//~ }
-			//~ }
-		//~ }
+	else{ // Ne doit normalement jamais être indéterminé
 		return false;
 	}
-	
 	if(lit < (int)index_clauses.size()){
 		for(unsigned int i=0; i < index_clauses[lit].size(); i++){
 			if(valeur_clause(valeurs, index_clauses[lit][i]) == FAUX){
@@ -164,7 +149,7 @@ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cl
 	var_t v;
 	lit_t l;
 	
-	// Temps qu'il reste des littéraux à traiter
+	// Tant qu'il reste des littéraux à traiter
 	while(!v_lit.empty()){
 		// On retire un littérale
 		l = v_lit.back();
