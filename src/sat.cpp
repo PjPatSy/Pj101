@@ -70,7 +70,6 @@ bool cherche_naive(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 }
 
 bool cherche1(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
-
 	if(suiv == valeurs.size()-1){
 		valeurs[suiv] = VRAI;
 		if(contient_insatisfaite(suiv, valeurs, index)){
@@ -101,33 +100,47 @@ bool cherche1(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > 
 	}
 }
 
-bool cherche2(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf, const vector<vector<cls_t> > & index) {
-	//~ while(valeurs[suiv] != INDETERMINEE){
-		//~ suiv++;
-	//~ }
-	//~ if(suiv >= valeurs.size()){
-		//~ return valeur_cnf(valeurs, cnf) == VRAI;
-	//~ }else{
-		//~ vector<var_t> p1 = propage(var2lit(suiv, true), valeurs, index);
-		//~ if(p1.size() > 0){
-			//~ if(cherche2(valeurs, suiv, cnf, index)){
-				//~ return true;
-			//~ }
-		//~ }
-		//~ for(size_t i = 0; i < p1.size(); i++){
-			//~ valeurs[p1[i]] = INDETERMINEE;
-		//~ }
-		//~ vector<var_t> p2 = propage(var2lit(suiv, false), valeurs, index);	
-		//~ if(p2.size() > 0){
-			//~ if(cherche2(valeurs, suiv, cnf, index)){
-				//~ return true;
-			//~ }
-		//~ }
-		//~ for(size_t i = 0; i < p2.size(); i++){
-			//~ valeurs[p2[i]] = INDETERMINEE;
-		//~ }
-	//~ }	
+// Recherche avec propage
+bool cherche2(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
+
+	if(suiv == valeurs.size()-1){
+		valeurs[suiv] = VRAI;
+		if(contient_insatisfaite(suiv, valeurs, index)){
+			valeurs[suiv] = FAUX;
+			if(contient_insatisfaite(suiv, valeurs, index)){
+				valeurs[suiv] = INDETERMINEE;
+				return false;
+			}
+			return true;
+		}
+		return true;
+	}
+	else{
+		 vector <var_t> varPropa = propage(var2lit(suiv), valeurs, index);
+    
+		if(!varPropa.empty() && cherche2(valeurs, suiv + 1, index)){
+			 return true;
+		}
+		for(unsigned int i = 0; i < varPropa.size(); i++){
+			valeurs[varPropa[i]] = INDETERMINEE;
+		}
+		
+		
+		varPropa = propage(var2lit(suiv, false), valeurs, index);
+		
+		if(!varPropa.empty() && cherche2(valeurs, suiv + 1, index)){
+			return true;
+		}
+		for(unsigned int i = 0; i < varPropa.size(); i++){
+			valeurs[varPropa[i]] = INDETERMINEE;
+		}
+		
+		valeurs[suiv] = INDETERMINEE;
+		
+		return false;
+	}
 }
+
 
 vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 	vector<vector<cls_t> > v;
@@ -141,12 +154,12 @@ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 	}
 	
 	// Affichage
-	for(unsigned int i=0; i < v.size(); i++){
-		cout << " " << i << " : " << endl;
-		for(unsigned int j=0; j < v[i].size(); j++){
-			cout << "\t" << v[i][j] << endl;
-		}
-	}
+	//~ for(unsigned int i=0; i < v.size(); i++){
+		//~ cout << " " << i << " : " << endl;
+		//~ for(unsigned int j=0; j < v[i].size(); j++){
+			//~ cout << "\t" << v[i][j] << endl;
+		//~ }
+	//~ }
 	
 	return v;
 }
@@ -197,11 +210,6 @@ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cl
 			
 			// On utilise l'index pour accéder aux clauses à vérifier
 			for(size_t i = 0; i < index[l].size(); i++){
-				// Pour chaque clause unitaire trouvée,
-				// on ajoute le littéral qui n'a pas de valeur dans les littéraux à traiter
-				//~ rien bité je regarderai plus tard
-				//~ v_lit.push_back(le litteral);
-
 				
 				// Si la clause s'évalue à FAUX
 				if(valeur_clause(valeurs, index[l][i]) == FAUX){
@@ -212,6 +220,30 @@ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cl
 					// On renvoie le vecteur vide
 					v_var.clear();
 					return v_var;
+				}
+				
+			}
+			
+			// Test des clauses unitaires
+			for(size_t i = 0; i < index[l].size(); i++){
+				lit_t Lj = -1;
+				bool tropIndetermine = false; // Egale à true quand il y a plus d'un litéral indéterminié
+				for(cls_t::iterator it = index[l][i].begin(); it != index[l][i].end(); it++){
+					if(*it == VRAI){
+						break;
+					}
+					if(*it == INDETERMINEE){
+						if(Lj == -1){
+							Lj = *it;
+						}
+						else{
+							tropIndetermine = true;
+							break;
+						}
+					}
+					if(!tropIndetermine && Lj != -1){
+						v_lit.push_back(neg(Lj)); // On ajoute les clause unitaire
+					}
 				}
 			}
 		}

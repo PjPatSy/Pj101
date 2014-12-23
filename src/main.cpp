@@ -32,13 +32,11 @@ int main(int argc, char** argv){
 	// attention effet de bord: valeurs est modifié par cherche
 	tbegin = time(NULL);
 	
-	cout << "NBVARS " << valeurs.size() << endl; 
 	
 	//~ if(cherche_naive(valeurs, 0, dimacs_data.cnf)){
-	if(cherche1(valeurs, 0, indexe_clauses(dimacs_data.cnf))){
+	if(cherche2(valeurs, 0, indexe_clauses(dimacs_data.cnf))){
 		set<lit_t> modele;
 		for(size_t i = 0; i < valeurs.size(); i++){
-			cout << "Val : " << i << endl;
 			if(valeurs[i] == VRAI){
 				modele.insert(var2lit(i, true));
 			}else{
