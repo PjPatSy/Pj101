@@ -69,7 +69,7 @@ bool cherche_naive(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 	}
 }
 
-bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
+bool cherche1(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
 
 	if(suiv == valeurs.size()-1){
 		valeurs[suiv] = VRAI;
@@ -86,13 +86,13 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > &
 	else{
 		valeurs[suiv] = VRAI;
 		if(!contient_insatisfaite(suiv, valeurs, index)){
-			if(cherche(valeurs, suiv + 1, index)){
+			if(cherche1(valeurs, suiv + 1, index)){
 				return true;
 			}
 		}
 		valeurs[suiv] = FAUX;
 		if(!contient_insatisfaite(suiv, valeurs, index)){
-			if(cherche(valeurs, suiv + 1, index)){
+			if(cherche1(valeurs, suiv + 1, index)){
 				return true;
 			}
 		}
@@ -101,7 +101,7 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > &
 	}
 }
 
-//~ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf, const vector<vector<cls_t> > & index) {
+bool cherche2(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf, const vector<vector<cls_t> > & index) {
 	//~ while(valeurs[suiv] != INDETERMINEE){
 		//~ suiv++;
 	//~ }
@@ -110,7 +110,7 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > &
 	//~ }else{
 		//~ vector<var_t> p1 = propage(var2lit(suiv, true), valeurs, index);
 		//~ if(p1.size() > 0){
-			//~ if(cherche(valeurs, suiv, cnf, index)){
+			//~ if(cherche2(valeurs, suiv, cnf, index)){
 				//~ return true;
 			//~ }
 		//~ }
@@ -119,7 +119,7 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > &
 		//~ }
 		//~ vector<var_t> p2 = propage(var2lit(suiv, false), valeurs, index);	
 		//~ if(p2.size() > 0){
-			//~ if(cherche(valeurs, suiv, cnf, index)){
+			//~ if(cherche2(valeurs, suiv, cnf, index)){
 				//~ return true;
 			//~ }
 		//~ }
@@ -127,7 +127,7 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > &
 			//~ valeurs[p2[i]] = INDETERMINEE;
 		//~ }
 	//~ }	
-//~ }
+}
 
 vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 	vector<vector<cls_t> > v;
@@ -176,16 +176,14 @@ bool contient_insatisfaite(var_t variable, const vector<val_t>& valeurs, const v
 vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cls_t> > & index) {
 	vector<var_t> v_var;
 	vector<lit_t> v_lit(1,lit);
-	var_t v;
-	lit_t l;
 	
 	// Tant qu'il reste des littéraux à traiter
 	while(!v_lit.empty()){
 		// On retire un littérale
-		l = v_lit.back();
+		lit_t l = v_lit.back();
 		v_lit.pop_back();
 		
-		v = lit2var(l);
+		var_t v = lit2var(l);
 		// Si le littérale n'a pas de valeur
 		if(valeurs[v] == INDETERMINEE){
 			// On ajoute la variable
