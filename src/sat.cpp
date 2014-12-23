@@ -39,9 +39,10 @@ val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf) {
 	return result;
 }
 
-bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
+bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
+	//valeurs[suiv] = FAUX;
 	if(suiv > valeurs.size()){
-		if(valeur_cnf(valeurs, cnf) == VRAI){
+		if(!contient_insatisfaite(suiv, valeurs, index)){
 			return true;
 		}else{
 			return false;
@@ -50,17 +51,17 @@ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 	else{
 		/* Si la cnf avec les valeurs actuelles est fausse ça ne sert à rin d'aller plus loin
 		 * On fait donc un retour en arrière dans l'arbre de recherche*/
-		if(valeur_cnf(valeurs, cnf) == FAUX){
+		if(contient_insatisfaite(suiv, valeurs, index)){
 			valeurs[suiv] = INDETERMINEE;
 			return false;
 		}
 		valeurs[suiv] = VRAI;
-		if(cherche(valeurs, suiv + 1, cnf)){
+		if(cherche(valeurs, suiv + 1, index)){
 			return true;
 		}else{
 			valeurs[suiv] = FAUX;
 		}
-		if(cherche(valeurs, suiv + 1, cnf)){
+		if(cherche(valeurs, suiv + 1, index)){
 			return true;
 		}else{
 			valeurs[suiv] = INDETERMINEE;
@@ -108,28 +109,50 @@ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 		}
 	}
 	
-	for(unsigned int i=0; i < v.size(); i++){
-		cout << " " << i << " : " << endl;
-		for(unsigned int j=0; j < v[i].size(); j++){
-			cout << "\t" << v[i][j] << endl;
-		}
-	}
+	//~ for(unsigned int i=0; i < v.size(); i++){
+		//~ cout << " " << i << " : " << endl;
+		//~ for(unsigned int j=0; j < v[i].size(); j++){
+			//~ cout << "\t" << v[i][j] << endl;
+		//~ }
+	//~ }
 	
 	return v;
 }
 
 bool contient_insatisfaite(var_t variable, const vector<val_t>& valeurs, const vector<vector<cls_t> >& index_clauses) {
-	lit_t litF = var2lit(variable, false);
-	lit_t litV = var2lit(variable, true);
-	
-	for(unsigned int i=0; i < index_clauses[litF].size(); i++){
-		if(valeur_clause(valeurs, index_clauses[litF][i]) == FAUX){
-			return true;
-		}
+	//lit_t litF = var2lit(variable, false);
+	lit_t lit;
+	if(valeurs[variable] == FAUX){
+		lit = var2lit(variable, true);
 	}
-	for(unsigned int i=0; i < index_clauses[litV].size(); i++){
-		if(valeur_clause(valeurs, index_clauses[litV][i]) == FAUX){
-			return true;
+	else if(valeurs[variable] == VRAI){
+		lit = var2lit(variable, false);
+	}
+	else{
+		//~ lit = var2lit(variable, true);
+		//~ lit_t litF = var2lit(variable, false);
+		//~ if(litF < (int)index_clauses.size()){
+			//~ for(unsigned int i=0; i < index_clauses[litF].size(); i++){
+				//~ if(valeur_clause(valeurs, index_clauses[litF][i]) == FAUX){
+					//~ return true;
+				//~ }
+			//~ }
+		//~ }
+		//~ if(litV < (int)index_clauses.size()){
+			//~ for(unsigned int i=0; i < index_clauses[litV].size(); i++){
+				//~ if(valeur_clause(valeurs, index_clauses[litV][i]) == FAUX){
+					//~ return true;
+				//~ }
+			//~ }
+		//~ }
+		return false;
+	}
+	
+	if(lit < (int)index_clauses.size()){
+		for(unsigned int i=0; i < index_clauses[lit].size(); i++){
+			if(valeur_clause(valeurs, index_clauses[lit][i]) == FAUX){
+				return true;
+			}
 		}
 	}
 	return false;

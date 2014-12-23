@@ -12,7 +12,7 @@
 val_t valeur_lit(const vector<val_t> & valeurs, lit_t l);
 val_t valeur_clause(const vector<val_t> & valeurs, cls_t clause);
 val_t valeur_cnf(const vector<val_t> & valeurs, cnf_t cnf);
-bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf); 
+bool cherche(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index); 
 //~ bool cherche(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf, const vector<vector<cls_t> > & index); 
 // Optimisations ///////////////////////////////////////////////////////////////
 vector<vector<cls_t> > indexe_clauses(const cnf_t& cnf);
