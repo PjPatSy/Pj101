@@ -215,27 +215,23 @@ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cl
 					return v_var;
 				}
 				
-			}
-			
-			// Test des clauses unitaires
-			for(size_t i = 0; i < index[l].size(); i++){
+				// Test des clauses unitaires
 				lit_t Lj = -1;
 				bool tropIndetermine = false; // Egale à true quand il y a plus d'un litéral indéterminié
 				for(cls_t::iterator it = index[l][i].begin(); it != index[l][i].end(); it++){
-					if(*it == VRAI){
-						break;
-					}
-					if(*it == INDETERMINEE){
-						if(Lj == -1){
-							Lj = *it;
+					if(*it != VRAI){
+						if(*it == INDETERMINEE){
+							if(Lj == -1){
+								Lj = *it;
+							}
+							else{
+								tropIndetermine = true;
+								break;
+							}
 						}
-						else{
-							tropIndetermine = true;
-							break;
+						if(!tropIndetermine && Lj != -1){
+							v_lit.push_back(neg(Lj));
 						}
-					}
-					if(!tropIndetermine && Lj != -1){
-						v_lit.push_back(neg(Lj)); // On ajoute les clause unitaire
 					}
 				}
 			}
