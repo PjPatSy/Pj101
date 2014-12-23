@@ -20,8 +20,6 @@ int main(int argc, char** argv){
 	double texec = 0.;
 	
 	ifstream fichier_cnf(argv[1]);
-	//~ string list[6] = {"pb-simple1-unsat.cnf", "pb-simple2-unsat.cnf", "pb-simple3-sat.cnf", "pb-simple4-unsat.cnf", "pb-simple5-sat.cnf", "pb-simple6-sat.cnf"};
-	//~ for(int i=0; i < 6; i++){
 	dimacs dimacs_data;
 	lit_dimacs(fichier_cnf, dimacs_data);
 	// tableau dont les indices sont des variables et
@@ -31,7 +29,6 @@ int main(int argc, char** argv){
 	ofstream fichier_modele(argv[2]);
 	// attention effet de bord: valeurs est modifié par cherche
 	tbegin = time(NULL);
-	
 	
 	//~ if(cherche_naive(valeurs, 0, dimacs_data.cnf)){
 	if(cherche2(valeurs, 0, indexe_clauses(dimacs_data.cnf))){

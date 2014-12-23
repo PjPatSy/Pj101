@@ -69,6 +69,7 @@ bool cherche_naive(vector<val_t> & valeurs, var_t suiv, const cnf_t & cnf) {
 	}
 }
 
+// Recherche avec contient_insatisfaite
 bool cherche1(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
 	if(suiv == valeurs.size()-1){
 		valeurs[suiv] = VRAI;
@@ -103,7 +104,7 @@ bool cherche1(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > 
 // Recherche avec propage
 bool cherche2(vector<val_t> & valeurs, var_t suiv, const vector<vector<cls_t> > & index) {
 
-	if(suiv == valeurs.size()-1){
+	if(suiv == valeurs.size() - 1){
 		valeurs[suiv] = VRAI;
 		if(contient_insatisfaite(suiv, valeurs, index)){
 			valeurs[suiv] = FAUX;
@@ -153,14 +154,6 @@ vector<vector<cls_t>> indexe_clauses(const cnf_t& cnf) {
 		}
 	}
 	
-	// Affichage
-	//~ for(unsigned int i=0; i < v.size(); i++){
-		//~ cout << " " << i << " : " << endl;
-		//~ for(unsigned int j=0; j < v[i].size(); j++){
-			//~ cout << "\t" << v[i][j] << endl;
-		//~ }
-	//~ }
-	
 	return v;
 }
 
@@ -209,12 +202,12 @@ vector<var_t> propage(lit_t lit, vector<val_t> & valeurs, const vector<vector<cl
 			}
 			
 			// On utilise l'index pour accéder aux clauses à vérifier
-			for(size_t i = 0; i < index[l].size(); i++){
+			for(size_t i = 0; i < index[l].size(); ++i){
 				
 				// Si la clause s'évalue à FAUX
 				if(valeur_clause(valeurs, index[l][i]) == FAUX){
 					// On remet à INDETERMINEE les valeurs des variables
-					for(size_t j = 0; j < v_var.size(); j++){
+					for(size_t j = 0; j < v_var.size(); ++j){
 						valeurs[v_var[j]] = INDETERMINEE;
 					}
 					// On renvoie le vecteur vide
